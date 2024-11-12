@@ -1,22 +1,33 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import HomePage from '../pages/HomePage.vue';
-import authRotes from './auth';
-import boardRotes from './board';
-import travelRoutes from './travel';
-import galleryRoutes from './gallery';
+
+const Home = () => import('@/pages/Home.vue');
+const Loan = () => import('@/pages/Loan.vue');
+const Management = () => import('@/pages/Management.vue');
+const Admin = () => import('@/pages/Admin.vue');
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
       name: 'home',
-      component: HomePage,
+      component: Home,
     },
-    ...authRotes,
-    ...boardRotes,
-    ...travelRoutes,
-    ...galleryRoutes,
+    {
+      path: '/',
+      name: 'loan',
+      component: Loan,
+    },
+    {
+      path: '/',
+      name: 'management',
+      component: Management,
+    },
+    {
+      path: '/',
+      name: 'admin',
+      component: Admin,
+    },
   ],
 });
 
