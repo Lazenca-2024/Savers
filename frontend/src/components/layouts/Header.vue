@@ -21,10 +21,10 @@ const toggleMenu = () => {
     <!-- 메뉴 -->
     <div v-if="isMenuOpen" class="mobile-menu">
       <ul>
-        <li><a href="home">메인</a></li>
-        <li><a href="Management">가계관리</a></li>
-        <li><a href="loan">대출추천</a></li>
-        <li><a href="admin">관리자전용</a></li>
+        <li><a href="/">메인</a></li>
+        <li><a href="/Management">가계관리</a></li>
+        <li><a href="/loan">대출추천</a></li>
+        <li><a href="/admin">관리자전용</a></li>
       </ul>
     </div>
   </div>
