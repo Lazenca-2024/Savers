@@ -1,18 +1,18 @@
 <script setup>
-import { reactive, computed } from 'vue';
-import MenuGroup from './menu/MenuGroup.vue';
-import AccountMenuGroup from './menu/AccountMenuGroup.vue';
-import config from '@/config';
+// import { reactive, computed } from 'vue';
+// import MenuGroup from './menu/MenuGroup.vue';
+// import AccountMenuGroup from './menu/AccountMenuGroup.vue';
+// import config from '@/config';
 
-let state = reactive({ isNavShow: false });
+// let state = reactive({ isNavShow: false });
 
-let navClass = computed(() => (state.isNavShow ? 'collapse navbar-collapse show' : 'collapse navbar-collapse'));
+// let navClass = computed(() => (state.isNavShow ? 'collapse navbar-collapse show' : 'collapse navbar-collapse'));
 
-const toggleNavShow = () => (state.isNavShow = !state.isNavShow);
+// const toggleNavShow = () => (state.isNavShow = !state.isNavShow);
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
+  <!-- <nav class="navbar navbar-expand-sm bg-warning navbar-dark">
     <div class="container-fluid">
       <router-link class="navbar-brand" to="/">
         <i class="fa-solid fa-house"></i>
@@ -26,6 +26,6 @@ const toggleNavShow = () => (state.isNavShow = !state.isNavShow);
         <AccountMenuGroup />
       </div>
     </div>
-  </nav>
+  </nav> -->
 </template>
 <style></style>

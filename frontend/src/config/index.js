@@ -1,6 +1,5 @@
 export default {
-  title: 'KB Fullstack',
-  subtitle: '(Vue+Spring)',
+  title: '세이버스',
   menus: [
     {
       title: '게시판',

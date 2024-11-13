@@ -2,18 +2,17 @@
 import config from '@/config';
 </script>
 <template>
-  <div class="jumbotron p-5 bg-primary text-white">
-    <h1>{{ config.title }}</h1>
-    <p>{{ config.subtitle }}</p>
+  <div class="jumbotron p-5 text-white text-center">
+    <h1 class="black">{{ config.title }}</h1>
+    <!-- <p>{{ config.subtitle }}</p> -->
   </div>
 </template>
 <style scoped>
+.black{
+  color:black;
+}
 .jumbotron {
-  background-image: url('@/assets/images/background.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-  color: white;
+  background-color: #FFD800;
   padding: 2rem;
   margin-top: 1.5rem;
 }
