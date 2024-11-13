@@ -10,8 +10,10 @@ const toggleMenu = () => {
 
 <template>
   <div class="jumbotron pt-2 pb-2 text-center">
-    <h1 class="title">{{ config.title }}</h1>
-    <!-- 햄버거 메뉴 아이콘 -->
+    <!-- 세이버스 클릭 시 /index로 이동 -->
+    <router-link to="/" class="title-link">
+      <h1 class="title">{{ config.title }}</h1>
+    </router-link>    <!-- 햄버거 메뉴 아이콘 -->
     <div class="menu-icon" @click="toggleMenu">
       <span :class="{ open: isMenuOpen }"></span>
       <span :class="{ open: isMenuOpen }"></span>
@@ -46,6 +48,10 @@ const toggleMenu = () => {
   flex-grow: 1;
   text-align: center;
   margin: 0;
+}
+
+.title-link {
+  text-decoration: none; /* 링크에 기본적인 밑줄 없애기 */
 }
 
 .menu-icon {
