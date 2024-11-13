@@ -6,71 +6,33 @@
     <div class="me-2">지출 예정 금액</div>
     <div class="highlight">일시상환</div>
     </div>
-    <div class="amount">{{ amount.toLocaleString() }} 원</div>
+    <div class="amount">원</div>
 
     <div class="chart-section">
       <div class="chart-title">남은 상환 기간 중 어떤 방식이 가장 좋을까요?</div>
       <div class="chart">
-        <div
-          v-for="(option, index) in repaymentOptions"
-          :key="index"
-          class="bar"
-          :style="{ height: option.height + 'px', backgroundColor: option.color }"
-        >
-          <p>{{ option.label }}</p>
-          <p>{{ option.amount.toLocaleString() }}만원</p>
-        </div>
       </div>
     </div>
 
-    <div class="monthly-expense">
-      <div class="chart-title">○○○님의 월별 지출 내역이에요</div>
+    <div class="chart-section">
+      <div class="chart-title">ㅇㅇㅇ님의 월별 지출 내역이에요</div>
       <div class="chart">
-        <div
-          v-for="(expense, index) in monthlyExpenses"
-          :key="index"
-          class="bar"
-          :style="{ height: expense.height + 'px' }"
-        >
-          <p>{{ expense.month }}월</p>
-          <p>{{ expense.amount.toLocaleString() }}만원</p>
-        </div>
       </div>
     </div>
 
     <div class="fixed-cost">
       <div class="expense-title">고정 지출 비용</div>
-      <div class="expense-amount">{{ fixedCost.toLocaleString() }} 원</div>
+      <div class="expense-amount"> 원</div>
     </div>
 
     <div class="savings">
       <div class="expense-title">저축 비용</div>
-      <div class="expense-amount">{{ savings.toLocaleString() }} 원</div>
+      <div class="expense-amount">원</div>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      amount: 590000,
-      repaymentOptions: [
-        { label: '일시상환', amount: 123, height: 60, color: '#ffb3b3' },
-        { label: '원금균등상환', amount: 560, height: 100, color: '#d9d9ff' },
-        { label: '원리금균등상환', amount: 1203, height: 120, color: '#d9d9ff' }
-      ],
-      monthlyExpenses: [
-        { month: 7, amount: 41, height: 40 },
-        { month: 8, amount: 72, height: 70 },
-        { month: 9, amount: 30, height: 30 },
-        { month: 10, amount: 50, height: 50 }
-      ],
-      fixedCost: 150000,
-      savings: 150000
-    };
-  }
-};
 </script>
 
 <style scoped>
@@ -126,20 +88,10 @@ export default {
   display: flex;
   justify-content: space-around;
   align-items: flex-end;
-  height: 120px;
+  height: 200px;
   margin-bottom: 10px;
-}
-
-.bar {
-  width: 20%;
-  border-radius: 4px;
-  text-align: center;
-  color: #333;
-  font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 5px;
+  background-color: #F8F8F8;
+  border-radius: 15px;
 }
 
 .expense-title {
