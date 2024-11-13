@@ -6,7 +6,7 @@
     <div class="me-2">지출 예정 금액</div>
     <div class="highlight">일시상환</div>
     </div>
-    <div class="amount">원</div>
+    <div class="amount">590,000 원</div>
 
     <div class="chart-section">
       <div class="chart-title">남은 상환 기간 중 어떤 방식이 가장 좋을까요?</div>
@@ -20,14 +20,14 @@
       </div>
     </div>
 
-    <div class="fixed-cost">
+    <div class="aerea">
       <div class="expense-title">고정 지출 비용</div>
-      <div class="expense-amount"> 원</div>
+      <div class="expense-amount">150,000 원</div>
     </div>
 
-    <div class="savings">
+    <div class="aerea">
       <div class="expense-title">저축 비용</div>
-      <div class="expense-amount">원</div>
+      <div class="expense-amount">150,000 원</div>
     </div>
   </div>
 </template>
@@ -74,7 +74,7 @@
   margin: 5px 0 20px 0;
 }
 
-.chart-section, .monthly-expense, .fixed-cost, .savings {
+.chart-section, .monthly-expense {
   margin-bottom: 20px;
 }
 
@@ -94,10 +94,11 @@
   border-radius: 15px;
 }
 
-.expense-title {
-  font-size: 14px;
-  color: #777;
-  margin-bottom: 5px;
+.aerea{
+  background-color: #F8F8F8;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  padding: 10px;
 }
 
 .expense-amount {
@@ -105,6 +106,5 @@
   color: #333;
   font-weight: bold;
   padding: 10px 0;
-  border-bottom: 1px solid #ddd;
 }
 </style>
