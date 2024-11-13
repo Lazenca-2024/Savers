@@ -14,3 +14,11 @@ import Footer from './Footer.vue';
     <Footer />
   </div>
 </template>
+
+<style>
+.container {
+  width: 402px;
+  padding: 0px;
+
+}
+</style>

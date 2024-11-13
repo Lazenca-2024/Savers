@@ -2,7 +2,7 @@
 import config from '@/config';
 </script>
 <template>
-  <div class="jumbotron p-5 text-white text-center">
+  <div class="jumbotron pt-2 pb-2 text-center">
     <h1 class="black">{{ config.title }}</h1>
     <!-- <p>{{ config.subtitle }}</p> -->
   </div>
@@ -10,10 +10,9 @@ import config from '@/config';
 <style scoped>
 .black{
   color:black;
+  font-size: 24px;
 }
 .jumbotron {
   background-color: #FFD800;
-  padding: 2rem;
-  margin-top: 1.5rem;
 }
 </style>
