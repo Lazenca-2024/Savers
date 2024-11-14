@@ -1,5 +1,16 @@
 <template>
   <div class="mt-3">
+    <!-- 검색 입력 필드 및 버튼 -->
+    <div class="search-container">
+      <input
+        type="text"
+        v-model="searchQuery"
+        placeholder="대출 상품 검색..."
+        class="search-input"
+      />
+      <button @click="performSearch" class="search-button">검색</button>
+    </div>
+
     <div v-for="loan in paginatedLoans" :key="loan.title" class="loan-card" @click="goToLoanPage(loan.link)">
       <div class="loan-card-header">
         <h4 class="loan-title">{{ loan.title }}</h4>
@@ -25,26 +36,26 @@ const loans = ref([
   { title: '우리사 대출상품', interestRate: '3.9%', description: '빠른 심사로 언제든지 자금을 지원받을 수 있습니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
   { title: '하나사 대출상품', interestRate: '5.0%', description: '실속 있는 금리로 안정적인 자금 운용이 가능합니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
   { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  { title: '농협 대출상품', interestRate: '4.0%', description: '기존 대출금 상환 시 혜택이 있는 상품입니다.', link: 'https://obiz.kbstar.com/quics?page=C016280#CP' },
-  // 나머지 80개 대출 상품 추가
+  // 나머지 상품들을 추가...
 ]);
 
 const currentPage = ref(1);
 const itemsPerPage = 5;  // 한 페이지에 표시할 대출 상품 개수
-const totalPages = Math.ceil(loans.value.length / itemsPerPage);
+const searchQuery = ref(''); // 검색어 상태
+const filteredLoans = ref(loans.value); // 초기 필터링된 대출 상품
+
+const totalPages = computed(() => {
+  return Math.ceil(filteredLoans.value.length / itemsPerPage);
+});
 
 const paginatedLoans = computed(() => {
   const start = (currentPage.value - 1) * itemsPerPage;
   const end = start + itemsPerPage;
-  return loans.value.slice(start, end);
+  return filteredLoans.value.slice(start, end);
 });
 
 const nextPage = () => {
-  if (currentPage.value < totalPages) {
+  if (currentPage.value < totalPages.value) {
     currentPage.value++;
   }
 };
@@ -53,6 +64,13 @@ const prevPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
   }
+};
+
+const performSearch = () => {
+  currentPage.value = 1; // 검색 후 첫 페이지로 리셋
+  filteredLoans.value = loans.value.filter(loan => {
+    return loan.title.toLowerCase().includes(searchQuery.value.toLowerCase());
+  });
 };
 
 const goToLoanPage = (link) => {
@@ -135,5 +153,34 @@ const goToLoanPage = (link) => {
   font-size: 16px;
   font-weight: bold;
   color: #333;
+}
+
+/* 검색 입력 스타일 */
+.search-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  width: 80%; /* 원하는 너비로 수정 가능 */
+  font-size: 16px;
+}
+
+.search-button {
+  padding: 10px 20px;
+  border: none;
+  background-color: #4C70AD;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.search-button:hover {
+  background-color: #4F83DC;
 }
 </style>
