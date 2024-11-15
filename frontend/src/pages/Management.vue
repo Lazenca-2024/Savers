@@ -21,7 +21,7 @@
           </div>
           </div>
           <div class="label">{{ data.label }}</div>
-          <div class="value">{{ data.amount }}원</div>
+          <div class="value">{{ data.amount }}</div>
         </div>
       </div>
     </div>
@@ -39,7 +39,7 @@
           </div>
           </div>
           <div class="label">{{ data.label }}</div>
-          <div class="value">{{ data.amount }}원</div>
+          <div class="value">{{ data.amount }}</div>
         </div>
       </div>
     </div>
@@ -139,14 +139,17 @@ export default {
   background-color: #F8F8F8;
   border-radius: 15px;
   margin-bottom: 20px;
-  padding: 10px;
+  padding: 25px;
+}
+
+.expense-title{
+  font-size: 20px;
 }
 
 .expense-amount {
-  font-size: 18px;
+  font-size: 25px;
   color: #333;
   font-weight: bold;
-  padding: 10px 0;
 }
 
 .bar-container {
