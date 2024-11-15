@@ -78,15 +78,15 @@ const showPosition = (position) => {
   })
     .then(response => response.json())
     .then(data => {
-      const places = data.documents;
-      if (places.length > 0) {
+      if (data && data.documents && data.documents.length > 0) {
+        const places = data.documents;
         let placeList = '주변 KB국민은행 영업점을 안내해 드릴게요.\n';
         places.forEach(place => {
-          console.log(data);
           placeList += `${place.place_name} (${place.road_address_name})\n`;
         });
         messages.value.push({ type: 'bot', text: placeList });
       } else {
+        // 주변 영업점이 없을 경우
         messages.value.push({ type: 'bot', text: '주변에 KB국민은행 영업점이 없습니다.' });
       }
     })
@@ -95,6 +95,7 @@ const showPosition = (position) => {
       console.error('Error fetching data: ', error);
     });
 };
+
 
 // 위치 정보 가져오기 실패 시 호출되는 함수
 const showError = (error) => {
