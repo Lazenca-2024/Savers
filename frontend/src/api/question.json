@@ -37,54 +37,59 @@
       {
         "option_id": 1,
         "content": "사업자금 대출 (자영업자)",
-        "next_question_id": 1
+        "next_question_id": 3
       },
       {
         "option_id": 2,
         "content": "신용대출",
-        "next_question_id": 1
+        "next_question_id": 4
       },
       {
         "option_id": 3,
         "content": "정책자금 대출",
-        "next_question_id": 1
+        "next_question_id": 5
       },
       {
         "option_id": 4,
         "content": "자동차 담보",
-        "next_question_id": 1
+        "next_question_id": 6
       },
       {
         "option_id": 5,
         "content": "카드론",
-        "next_question_id": 1
+        "next_question_id": 7
       }
     ]
   },
   {
     "question_id": 3,
     "content": "사업자금 대출의 금리 및 금액을 알려주세요.\n입력 예시: 6.41, 2000",
-    "option": null
+    "option": null,
+    "next_question_id": 8
   },
   {
     "question_id": 4,
     "content": "신용대출의 금리 및 금액을 알려주세요.\n입력 예시: 6.41, 2000",
-    "option": null
+    "option": null,
+    "next_question_id": 8
   },
   {
     "question_id": 5,
     "content": "정책자금 대출의 금리 및 금액을 알려주세요.\n입력 예시: 6.41, 2000",
-    "option": null
+    "option": null,
+    "next_question_id": 8
   },
   {
     "question_id": 6,
     "content": "자동차 담보 대출의 금리 및 금액을 알려주세요.\n입력 예시: 6.41, 2000",
-    "option": null
+    "option": null,
+    "next_question_id": 8
   },
   {
     "question_id": 7,
     "content": "카드론 대출의 금리 및 금액을 알려주세요.\n입력 예시: 6.41, 2000",
-    "option": null
+    "option": null,
+    "next_question_id": 8
   },
   {
 	  "question_id": 8,
@@ -103,7 +108,7 @@
       {
         "option_id": 3,
         "content": "일반 사업자",
-        "next_question_id": 8
+        "next_question_id": 9
       }
     ]
   },
