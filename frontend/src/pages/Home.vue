@@ -10,10 +10,25 @@
         <p style="white-space: pre-line;">{{ message.content }}</p>
         <!-- 옵션 (사용자 선택을 위한 버튼) -->
         <div v-if="message.option && message.option.length > 0 && message.check == true" class="options">
-          <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
-            {{ option.content }}
-          </button>
-        </div>
+        <div v-for="(option) in message.option" :key="option.option_id" class="option-wrapper" @click="toggleCheckbox(option.option_id)">
+  <label class="options">
+    <input 
+      type="checkbox" 
+      :value="option.option_id" 
+      v-model="selectedOptions" 
+      @click.stop
+    />
+    {{ option.content }}
+  </label>
+</div>
+<!-- 선택완료 버튼 -->
+  <div class="complete-section">
+    <button @click="completeSelection">선택완료</button>
+  </div>
+
+
+</div>
+
         <div v-else class="options">
           <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
             {{ option.content }}
@@ -27,11 +42,7 @@
     </div>
   </div>
 
-  <!-- 선택완료 버튼 -->
-  <div v-if="showCompleteButton" class="complete-section">
-    <button @click="completeSelection">선택완료</button>
-  </div>
-
+  
   <!-- 입력칸 -->
   <div class="input-section">
     <input v-model="userInput" placeholder="입력해 주세요." @keyup.enter="sendMessage" />
