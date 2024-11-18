@@ -9,7 +9,12 @@
       <div v-if="message.isBot">
         <p style="white-space: pre-line;">{{ message.content }}</p>
         <!-- 옵션 (사용자 선택을 위한 버튼) -->
-        <div v-if="message.option && message.option.length > 0" class="options">
+        <div v-if="message.option && message.option.length > 0 && message.check == true" class="options">
+          <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
+            {{ option.content }}
+          </button>
+        </div>
+        <div v-else class="options">
           <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
             {{ option.content }}
           </button>
@@ -98,6 +103,7 @@ const handleOptionClick = (option) => {
         isBot: true, // 옵션 선택 후의 질문도 AI 메시지로 설정
         content: nextQuestion.content,
         option: nextQuestion.option || [],
+          check: nextQuestion.check,
       });
       currentQuestionIndex.value = questions.indexOf(nextQuestion);
     }
