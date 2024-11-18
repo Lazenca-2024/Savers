@@ -22,12 +22,18 @@
     </div>
   </div>
 
+  <!-- 선택완료 버튼 -->
+  <div v-if="showCompleteButton" class="complete-section">
+    <button @click="completeSelection">선택완료</button>
+  </div>
+
   <!-- 입력칸 -->
   <div class="input-section">
     <input v-model="userInput" placeholder="입력해 주세요." @keyup.enter="sendMessage" />
     <button @click="sendMessage">전송</button>
   </div>
 </template>
+
 
 <script setup>
 import { ref } from "vue";
@@ -36,6 +42,8 @@ import questions from "/src/api/structured_question.json"; // JSON 파일을 imp
 const messages = ref([]); // 메시지 데이터
 const userInput = ref(""); 
 const currentQuestionIndex = ref(0); // 현재 질문의 인덱스
+const answeredQuestions = ref(new Set()); // 응답한 question_id를 저장하는 Set
+const showCompleteButton = ref(false); // "선택완료" 버튼 표시 여부
 
 // 메시지 초기화
 const initializeChat = () => {
@@ -62,6 +70,7 @@ const sendMessage = () => {
     const nextQuestionId =
       questions[currentQuestionIndex.value]?.option?.[0]?.next_question_id;
     if (nextQuestionId !== undefined) {
+      handleQuestionCompletion(nextQuestionId); // 응답 처리
       const nextQuestion = questions.find(
         (q) => q.question_id === nextQuestionId
       );
@@ -80,6 +89,7 @@ const sendMessage = () => {
 // 옵션 선택 처리
 const handleOptionClick = (option) => {
   if (option.next_question_id) {
+    handleQuestionCompletion(option.next_question_id); // 응답 처리
     const nextQuestion = questions.find(
       (q) => q.question_id === option.next_question_id
     );
@@ -94,8 +104,25 @@ const handleOptionClick = (option) => {
   }
 };
 
+// 질문 응답 처리
+const handleQuestionCompletion = (questionId) => {
+  answeredQuestions.value.add(questionId);
+  // 질문 ID가 2개 이상이면 "선택완료" 버튼 표시
+  if (answeredQuestions.value.size >= 2) {
+    showCompleteButton.value = true;
+  }
+};
+
+// "선택완료" 버튼 클릭 시 처리
+const completeSelection = () => {
+  alert("선택이 완료되었습니다!");
+  showCompleteButton.value = false; // 버튼 숨김
+  answeredQuestions.value.clear(); // 상태 초기화
+};
+
 // 초기화
 initializeChat();
+
 </script>
 
 <style scoped>
@@ -181,4 +208,19 @@ initializeChat();
   border-radius: 5px;
   cursor: pointer;
 }
+
+.complete-section {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.complete-section button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 </style>

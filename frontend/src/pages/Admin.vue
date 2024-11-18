@@ -1,33 +1,5 @@
-<script setup>
-import { ref } from "vue";
-import bellImage from '@/assets/images/bell.png';
-
-const activeButton = ref(null); // 활성화된 버튼 인덱스
-const users = [
-  { id: 0, name: "김민지", phone: "010-1234-5678", address: "서울특별시 송파구", credit: "2등급", loan: "50,000,000 원", status: "연체중" },
-  { id: 1, name: "곽민지", phone: "010-5678-1234", address: "경기도 성남시", credit: "1등급", loan: "30,000,000 원", status: "정상" },
-  { id: 2, name: "박민지", phone: "010-3456-7890", address: "부산광역시 해운대구", credit: "3등급", loan: "20,000,000 원", status: "정상" },
-  { id: 3, name: "이민지", phone: "010-0987-6543", address: "서울특별시 광진구", credit: "1등급", loan: "100,000,000 원", status: "연체중" },
-];
-
-const products = [
-  {
-    title: "KB 사장님 + 마이너스통장",
-    subtitle: "개인사업자 | 최대 1억원 | 4.26%",
-  },
-  {
-    title: "KB소상공인 신용대출",
-    subtitle: "개인사업자 | 최대 1억원 | 4.26%",
-  },
-];
-
-const handleButtonClick = (buttonIndex) => {
-  activeButton.value = activeButton.value === buttonIndex ? null : buttonIndex; // 클릭 시 활성화된 버튼 전환
-};
-</script>
-
 <template>
-  <div>
+<div>
     <h3 class="mt-3">관리자 전용</h3>
     <span>고객 내역 확인</span>
 
@@ -90,16 +62,109 @@ const handleButtonClick = (buttonIndex) => {
           <p class="product-subtitle">{{ product.subtitle }}</p>
         </div>
         <div>
-      <hr class="line">
       </div>
       </div>
     </div>
+    <h5>고객정보</h5>
+    <div class="loan-status">
+    <div class="loan-header">
+      <h3>{{ loanInfo.title }}</h3>
+    </div>
+    <div class="loan-details">
+      <div class="loan-amount">
+        <p>대출 금액</p>
+        <div class="loam"><strong>{{ formatCurrency(loanInfo.amount) }}</strong></div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress" :style="{ width: progressPercentage + '%' }"></div>
+      </div>
+      <div class="loan-meta">
+        <div>
+          <span>신청일</span>
+          <span>{{ loanInfo.startDate }}</span>
+        </div>
+        <div>
+          <span>만기일</span>
+          <span>{{ loanInfo.endDate }}</span>
+        </div>
+      </div>
+      <div class="loan-extra">
+        <div class="loex">
+          <span>적용 금리</span>
+          <span class="lospan">연 {{ loanInfo.interestRate }}%</span>
+        </div>
+        <div class="loex">
+          <span>만기일</span>
+          <span class="lospan">{{ loanInfo.endDate }}%</span>
+        </div>
+        <div class="loex">
+          <span>상환 회차</span>
+          <span class="lospan">{{ loanInfo.repaymentCount }}회</span>
+        </div>
+        <div class="loex">
+          <span>대출 잔액</span>
+          <span class="lospan">{{ formatCurrency(loanInfo.remainingBalance) }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
   </div>
         </div>
       </div>
     </div>
   </div>
+  
 </template>
+
+<script setup>
+import { ref } from "vue";
+import bellImage from '@/assets/images/bell.png';
+
+const activeButton = ref(null); // 활성화된 버튼 인덱스
+const users = [
+  { id: 0, name: "김민지", phone: "010-1234-5678", address: "서울특별시 송파구", credit: "2등급", loan: "50,000,000 원", status: "연체중" },
+  { id: 1, name: "곽민지", phone: "010-5678-1234", address: "경기도 성남시", credit: "1등급", loan: "30,000,000 원", status: "정상" },
+  { id: 2, name: "박민지", phone: "010-3456-7890", address: "부산광역시 해운대구", credit: "3등급", loan: "20,000,000 원", status: "정상" },
+  { id: 3, name: "이민지", phone: "010-0987-6543", address: "서울특별시 광진구", credit: "1등급", loan: "100,000,000 원", status: "연체중" },
+];
+
+const products = [
+  {
+    title: "KB 사장님 + 마이너스통장",
+    subtitle: "개인사업자 | 최대 1억원 | 4.26%",
+  },
+  {
+    title: "KB소상공인 신용대출",
+    subtitle: "개인사업자 | 최대 1억원 | 4.26%",
+  },
+];
+
+const handleButtonClick = (buttonIndex) => {
+  activeButton.value = activeButton.value === buttonIndex ? null : buttonIndex; // 클릭 시 활성화된 버튼 전환
+};
+
+const loanInfo = ref({
+  title: "KB 사장님 + 마이너스통장",
+  amount: 100000000, // 대출 금액
+  startDate: "2023.11.20", // 신청일
+  endDate: "2024.11.20", // 만기일
+  interestRate: 4.26, // 적용 금리
+  repaymentCount: 5, // 상환 회차
+  remainingBalance: 400000000, // 대출 잔액
+});
+
+// 상환 진행률 계산 (잔액을 기준으로 100% - 잔액 비율)
+const progressPercentage = ((loanInfo.value.amount - loanInfo.value.remainingBalance) / loanInfo.value.amount) * 100;
+
+// 통화 형식 변환 함수
+const formatCurrency = (value) => {
+  return new Intl.NumberFormat("ko-KR", {
+    style: "currency",
+    currency: "KRW",
+  }).format(value);
+};
+
+</script>
 
 <style scoped>
 .button-container {
@@ -219,13 +284,14 @@ const handleButtonClick = (buttonIndex) => {
   display: flex;
   flex-direction: column;
   border-radius: 8px;
+  background-color: #ffffff;
+  margin-bottom: 10px;
 }
 
 .product-item {
   display: flex;
   align-items: center;
   padding: 10px;
-  background-color: #ffffff;
 }
 
 .product-index {
@@ -251,9 +317,85 @@ const handleButtonClick = (buttonIndex) => {
   margin: 0;
 }
 
-.line{
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
+
+.loan-status {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  font-family: "Arial", sans-serif;
 }
+
+.loan-header h3 {
+  font-size: 18px;
+  font-weight: bold;
+  color: #333;
+}
+
+.loan-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.loan-amount {
+  justify-content: space-between;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.loan-amount p{
+  margin: 0;
+  color: #888888;
+}
+
+.loam {
+
+}
+
+.progress-bar {
+  background-color: #f5f5f5;
+  height: 10px;
+  border-radius: 5px;
+  overflow: hidden;
+  margin: 10px 0 10px 0;
+}
+
+.progress-bar .progress {
+  height: 100%;
+  background-color: #ff0000; /* 빨간색 */
+}
+
+.loan-meta {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.loan-extra {
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.loex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.lospan {
+  font-weight: bold;
+  color: black;
+}
+
+.loan-meta span:first-child,
+.loan-extra span:first-child {
+  font-weight: bold;
+}
+
 </style>
