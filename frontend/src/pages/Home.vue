@@ -10,8 +10,7 @@
         <p style="white-space: pre-line;">{{ message.content }}</p>
         <!-- 옵션 (사용자 선택을 위한 버튼) -->
         <div v-if="message.option && message.option.length > 0 && message.check == true" class="d-options">
-        <div v-for="(option) in message.option" :key="option.option_id" class="option-wrapper" @click="toggleCheckbox(option.option_id)">
-          <label class="">
+          <label v-for="(option) in message.option" :key="option.option_id" class="option-wrapper" @click="toggleCheckbox(option.option_id)">
             <input 
               type="checkbox" 
               :value="option.option_id" 
@@ -20,7 +19,6 @@
             />
             {{ option.content }}
           </label>
-        </div>
         <!-- 선택완료 버튼 -->
           <div class="complete-section">
             <button @click="completeSelection">선택완료</button>
@@ -58,6 +56,8 @@ const userInput = ref("");
 const currentQuestionIndex = ref(0); // 현재 질문의 인덱스
 const answeredQuestions = ref(new Set()); // 응답한 question_id를 저장하는 Set
 const showCompleteButton = ref(false); // "선택완료" 버튼 표시 여부
+
+const selectedOptions = ref([]); // 체크된 항목의 값들을 저장할 배열
 
 // 메시지 초기화
 const initializeChat = () => {
@@ -130,7 +130,12 @@ const handleQuestionCompletion = (questionId) => {
 
 // "선택완료" 버튼 클릭 시 처리
 const completeSelection = () => {
-  alert("선택이 완료되었습니다!");
+  // 선택된 값들을 가져오기
+  console.log("선택된 옵션 값들:", selectedOptions.value);
+
+  // 예: 값을 확인하거나 처리한 후 상태 초기화
+  alert(`선택된 값들: ${selectedOptions.value.join(", ")}`);
+  selectedOptions.value = []; // 선택 초기화
   showCompleteButton.value = false; // 버튼 숨김
   answeredQuestions.value.clear(); // 상태 초기화
 };
@@ -254,6 +259,11 @@ initializeChat();
   padding: 10px;
   cursor: pointer;
   margin-right: 62px;
+  display: flex; /* 플렉스 박스로 변경 */
+  align-items: center; /* 수직 중앙 정렬 */
+  justify-content: flex-start; /* 체크박스와 텍스트를 왼쪽부터 배치 */
+  gap: 10px; /* 체크박스와 텍스트 사이의 간격 */
+  text-align: center; /* 텍스트 중앙 정렬 */
 }
 
 
