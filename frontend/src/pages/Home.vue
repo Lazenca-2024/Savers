@@ -9,25 +9,23 @@
       <div v-if="message.isBot">
         <p style="white-space: pre-line;">{{ message.content }}</p>
         <!-- 옵션 (사용자 선택을 위한 버튼) -->
-        <div v-if="message.option && message.option.length > 0 && message.check == true" class="options">
+        <div v-if="message.option && message.option.length > 0 && message.check == true" class="d-options">
         <div v-for="(option) in message.option" :key="option.option_id" class="option-wrapper" @click="toggleCheckbox(option.option_id)">
-  <label class="options">
-    <input 
-      type="checkbox" 
-      :value="option.option_id" 
-      v-model="selectedOptions" 
-      @click.stop
-    />
-    {{ option.content }}
-  </label>
-</div>
-<!-- 선택완료 버튼 -->
-  <div class="complete-section">
-    <button @click="completeSelection">선택완료</button>
-  </div>
-
-
-</div>
+          <label class="">
+            <input 
+              type="checkbox" 
+              :value="option.option_id" 
+              v-model="selectedOptions" 
+              @click.stop
+            />
+            {{ option.content }}
+          </label>
+        </div>
+        <!-- 선택완료 버튼 -->
+          <div class="complete-section">
+            <button @click="completeSelection">선택완료</button>
+          </div>
+      </div>
 
         <div v-else class="options">
           <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
@@ -239,5 +237,25 @@ initializeChat();
   border-radius: 5px;
   cursor: pointer;
 }
+
+
+.d-options {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  font-size: 15px;
+  text-align: center;
+}
+
+.option-wrapper {
+  background-color: #FFD800;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  cursor: pointer;
+  margin-right: 62px;
+}
+
+
 
 </style>
