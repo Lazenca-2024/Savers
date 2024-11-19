@@ -4,33 +4,34 @@
     <div v-for="(message, index) in messages" :key="index" class="message" :class="{'user-message': !message.isBot, 'bot-message': message.isBot}">
       <div v-if="message.isBot">
         <div class="bot-icon">🤖</div>
-        </div>
-      <!-- AI 메시지 -->
-      <div v-if="message.isBot">
-        <p style="white-space: pre-line;">{{ message.content }}</p>
-        <!-- 옵션 (사용자 선택을 위한 버튼) -->
-        <div v-if="message.option && message.option.length > 0 && message.check == true" class="d-options">
-          <label v-for="(option) in message.option" :key="option.option_id" class="option-wrapper" @click="toggleCheckbox(option.option_id)">
-            <input 
-              type="checkbox" 
-              :value="option.option_id" 
-              v-model="selectedOptions" 
-              @click.stop
-            />
-            {{ option.content }}
-          </label>
-        <!-- 선택완료 버튼 -->
-          <div class="complete-section">
-            <button @click="completeSelection">선택완료</button>
+        <!-- AI 메시지 -->
+        <div v-if="message.isBot">
+          <p style="white-space: pre-line;">{{ message.content }}</p>
+          <!-- 옵션 (사용자 선택을 위한 버튼) -->
+          <div v-if="message.option && message.option.length > 0 && message.check == true" class="d-options">
+            <label v-for="(option) in message.option" :key="option.option_id" class="option-wrapper">
+              <input 
+                type="checkbox" 
+                :value="option.option_id" 
+                v-model="selectedOptions" 
+                @click.stop
+              />
+              {{ option.content }}
+            </label>
+            <!-- 선택완료 버튼 -->
+            <div class="complete-section">
+              <button @click="completeSelection">선택완료</button>
+            </div>
           </div>
+
+          <div v-else class="options">
+            <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
+              {{ option.content }}
+            </button>
+          </div>
+        </div>
       </div>
 
-        <div v-else class="options">
-          <button v-for="(option) in message.option" :key="option.option_id" @click="handleOptionClick(option)">
-            {{ option.content }}
-          </button>
-        </div>
-      </div>
       <!-- 사용자 메시지 -->
       <div v-else>
         <p style="white-space: pre-line; text-align: right;">{{ message.content }}</p>
@@ -38,14 +39,12 @@
     </div>
   </div>
 
-  
   <!-- 입력칸 -->
   <div class="input-section">
     <input v-model="userInput" placeholder="입력해 주세요." @keyup.enter="sendMessage" />
     <button @click="sendMessage">전송</button>
   </div>
 </template>
-
 
 <script setup>
 import { ref } from "vue";
@@ -58,6 +57,7 @@ const answeredQuestions = ref(new Set()); // 응답한 question_id를 저장하�
 const showCompleteButton = ref(false); // "선택완료" 버튼 표시 여부
 
 const selectedOptions = ref([]); // 체크된 항목의 값들을 저장할 배열
+const questionQueue = ref([]); // 후속 질문들을 저장할 큐
 
 // 메시지 초기화
 const initializeChat = () => {
@@ -67,11 +67,12 @@ const initializeChat = () => {
       isBot: true, // AI 메시지는 isBot 속성으로 구분
       content: firstQuestion.content,
       option: firstQuestion.option || [],
+      check: firstQuestion.check || false, // check 속성 추가
     });
   }
 };
 
-// 메시지 전송
+// 메시지 전송 처리
 const sendMessage = () => {
   if (userInput.value.trim()) {
     messages.value.push({
@@ -80,23 +81,32 @@ const sendMessage = () => {
     });
     userInput.value = "";
 
-    // 다음 질문으로 이동
-    const nextQuestionId =
-      questions[currentQuestionIndex.value]?.option?.[0]?.next_question_id;
-    if (nextQuestionId !== undefined) {
-      handleQuestionCompletion(nextQuestionId); // 응답 처리
-      const nextQuestion = questions.find(
-        (q) => q.question_id === nextQuestionId
-      );
-      if (nextQuestion) {
-        messages.value.push({
-          isBot: true, // 다음 질문은 AI 메시지로 isBot을 true로 설정
-          content: nextQuestion.content,
-          option: nextQuestion.option || [],
-        });
-        currentQuestionIndex.value = questions.indexOf(nextQuestion);
-      }
+    // 질문에 응답 후 후속 질문 처리
+    if (questionQueue.value.length > 0) {
+      const nextQuestion = questionQueue.value.shift(); // 큐에서 질문을 하나 꺼냄
+      messages.value.push({
+        isBot: true,
+        content: nextQuestion.content,
+        option: nextQuestion.option || [],
+        question_id: nextQuestion.question_id,
+        check: nextQuestion.check || false,
+      });
+      currentQuestionIndex.value = questions.indexOf(nextQuestion); // 다음 질문으로 이동
     }
+  }
+};
+// 후속 질문 로딩 함수
+const loadNextQuestion = (nextQuestionId) => {
+  const nextQuestion = questions.find(q => q.question_id === nextQuestionId);
+  if (nextQuestion) {
+    messages.value.push({
+      isBot: true,
+      content: nextQuestion.content,
+      option: nextQuestion.option || [],
+      question_id: nextQuestion.question_id,
+      check: nextQuestion.check || false,
+    });
+    currentQuestionIndex.value = questions.indexOf(nextQuestion);
   }
 };
 
@@ -112,7 +122,7 @@ const handleOptionClick = (option) => {
         isBot: true, // 옵션 선택 후의 질문도 AI 메시지로 설정
         content: nextQuestion.content,
         option: nextQuestion.option || [],
-          check: nextQuestion.check,
+        check: nextQuestion.check || false,
       });
       currentQuestionIndex.value = questions.indexOf(nextQuestion);
     }
@@ -128,17 +138,48 @@ const handleQuestionCompletion = (questionId) => {
   }
 };
 
-// "선택완료" 버튼 클릭 시 처리
+// 선택 완료 처리
 const completeSelection = () => {
-  // 선택된 값들을 가져오기
   console.log("선택된 옵션 값들:", selectedOptions.value);
 
-  // 예: 값을 확인하거나 처리한 후 상태 초기화
-  alert(`선택된 값들: ${selectedOptions.value.join(", ")}`);
-  selectedOptions.value = []; // 선택 초기화
-  showCompleteButton.value = false; // 버튼 숨김
-  answeredQuestions.value.clear(); // 상태 초기화
+  // 각 선택된 옵션에 대해 후속 질문을 큐에 추가
+  selectedOptions.value.forEach(optionId => {
+    const selectedOption = questions
+      .find(question => question.question_id === 2) // question_id가 2인 질문을 찾습니다.
+      ?.option
+      .find(option => option.option_id === optionId); // 선택된 option_id로 해당 옵션을 찾기
+
+    // 후속 질문이 있으면 큐에 추가
+    if (selectedOption && selectedOption.next_question_id) {
+      const nextQuestion = questions.find(
+        (q) => q.question_id === selectedOption.next_question_id
+      );
+      if (nextQuestion) {
+        questionQueue.value.push(nextQuestion); // 후속 질문 큐에 추가
+      }
+    }
+  });
+
+  // 큐에 질문이 있으면 첫 번째 후속 질문을 표시
+  if (questionQueue.value.length > 0) {
+    const nextQuestion = questionQueue.value.shift();
+    messages.value.push({
+      isBot: true,
+      content: nextQuestion.content,
+      option: nextQuestion.option || [],
+      question_id: nextQuestion.question_id,
+      check: nextQuestion.check || false,
+    });
+    currentQuestionIndex.value = questions.indexOf(nextQuestion);
+  }
+
+  // 상태 초기화
+  selectedOptions.value = [];
+  showCompleteButton.value = false;
+  answeredQuestions.value.clear();
 };
+
+
 
 // 초기화
 initializeChat();
@@ -146,6 +187,7 @@ initializeChat();
 </script>
 
 <style scoped>
+/* 스타일링은 그대로 유지 */
 .chat-container {
   padding: 10px;
   background-color: white;
@@ -243,7 +285,6 @@ initializeChat();
   cursor: pointer;
 }
 
-
 .d-options {
   display: flex;
   flex-direction: column;
@@ -265,7 +306,4 @@ initializeChat();
   gap: 10px; /* 체크박스와 텍스트 사이의 간격 */
   text-align: center; /* 텍스트 중앙 정렬 */
 }
-
-
-
 </style>
