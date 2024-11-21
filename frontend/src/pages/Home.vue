@@ -33,8 +33,8 @@
       </div>
 
       <!-- 사용자 메시지 -->
-      <div v-else>
-        <p style="white-space: pre-line; text-align: right;">{{ message.content }}</p>
+      <div v-else class="user_message">
+        <p style="white-space: pre-line; text-align: right;" >{{ message.content }}</p>
       </div>
     </div>
   </div>
@@ -216,6 +216,13 @@ initializeChat();
   border-radius: 10px;
   padding: 10px;
   max-width: 70%;
+  word-wrap: break-word;
+}
+.user_message p {
+  background-color: #f5f5f5;
+  border-radius: 10px;
+  padding: 10px;
+  max-width: 100%;
   word-wrap: break-word;
 }
 
