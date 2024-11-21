@@ -237,7 +237,7 @@ const formatCurrency = (value) => {
 .user-info {
   background: white;
   border-radius: 8px;
-  padding: 5px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -291,7 +291,7 @@ const formatCurrency = (value) => {
 .product-item {
   display: flex;
   align-items: center;
-  padding: 10px;
+  padding: 20px;
 }
 
 .product-index {
@@ -346,10 +346,6 @@ const formatCurrency = (value) => {
 .loan-amount p{
   margin: 0;
   color: #888888;
-}
-
-.loam {
-
 }
 
 .progress-bar {
