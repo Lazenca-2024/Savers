@@ -3,9 +3,10 @@
   <div class="chat-container">
     <div v-for="(message, index) in messages" :key="index" class="message" :class="{'user-message': !message.isBot, 'bot-message': message.isBot}">
       <div v-if="message.isBot">
-        <div class="bot-icon">🤖</div>
+        <div class="d-flex">
+        <div class="bot-icon d-inline">🤖</div>
         <!-- AI 메시지 -->
-        <div v-if="message.isBot">
+        <div v-if="message.isBot" class="">
           <p style="white-space: pre-line;">{{ message.content }}</p>
           <!-- 옵션 (사용자 선택을 위한 버튼) -->
           <div v-if="message.option && message.option.length > 0 && message.check == true" class="d-options">
@@ -30,7 +31,7 @@
             </button>
           </div>
         </div>
-      </div>
+      </div></div>
 
       <!-- 사용자 메시지 -->
       <div v-else class="user_message">
