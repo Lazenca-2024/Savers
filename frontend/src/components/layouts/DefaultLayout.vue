@@ -8,9 +8,17 @@ import Footer from './Footer.vue';
   <div class="container">
     <Header />
     <NavBar />
-    <div class="content my-5 px-3">
+    <div class="content">
       <slot></slot>
     </div>
     <Footer />
   </div>
 </template>
+
+<style>
+.container {
+  width: 402px;
+  padding: 0px;
+
+}
+</style>

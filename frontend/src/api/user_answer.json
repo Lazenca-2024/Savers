@@ -1,0 +1,104 @@
+[
+  {
+    "chat_id": "1",
+    "member_id": "test123",
+    "answer": [
+      {
+        "question_id": 1,
+        "selected_option": 2,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 2
+      },
+      {
+        "question_id": 2,
+        "selected_option": [1, 2],
+        "multi_select": 1,
+        "structured_question": 1,
+        "next_question_id": [3, 4]
+      },
+      {
+        "question_id": 3,
+        "selected_option": "6.41, 2000",
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 8
+      },
+      {
+        "question_id": 4,
+        "selected_option": "6.41, 2000",
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 8
+      },
+      {
+        "question_id": 8,
+        "selected_option": 3,
+        "multi_select": 0,
+        "structured_question": 9
+      },
+      {
+        "question_id": 9,
+        "selected_option": 1,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 10
+      },
+      {
+        "question_id": 10,
+        "selected_option": 1,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 11
+      },
+      {
+        "question_id": 11,
+        "selected_option": 1,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 1
+      },
+      {
+        "question_id": 1,
+        "selected_option": 5,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 12
+      },
+      {
+        "question_id": 12,
+        "selected_option": 2,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 1
+      },
+      {
+        "question_id": 1,
+        "selected_option": 3,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 13
+      }
+    ]
+  },
+  {
+    "chat_id": "2",
+    "member_id": "test000",
+    "answer": [
+      {
+        "question_id": 1,
+        "selected_option": 5,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 12
+      },
+      {
+        "question_id": 12,
+        "selected_option": 2,
+        "multi_select": 0,
+        "structured_question": 1,
+        "next_question_id": 1
+      }
+    ]
+  }
+]

@@ -14,17 +14,17 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: '/',
+      path: '/loan',
       name: 'loan',
       component: Loan,
     },
     {
-      path: '/',
+      path: '/management',
       name: 'management',
       component: Management,
     },
     {
-      path: '/',
+      path: '/admin',
       name: 'admin',
       component: Admin,
     },
